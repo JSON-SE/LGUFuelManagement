@@ -1,0 +1,9 @@
+@import "~bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+@import "~font-awesome/css/font-awesome.css";
+@import "~slick-carousel/slick/slick.css";
+@import "toastr";
+
+@import "custom.css";
+
+@import "style.css";

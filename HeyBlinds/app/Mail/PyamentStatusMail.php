@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+
+class PyamentStatusMail extends Mailable
+{
+    use Queueable, SerializesModels;
+
+
+    public $orderId;
+    public $price;
+    public $status;
+
+
+
+    /**
+     * Create a new message instance.
+     *
+     * @return void
+     */
+    public function __construct($orderId,$price,$status)
+    {
+        $this->orderId = $orderId;
+        $this->price = $price;
+        $this->status = $status;
+    }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->subject("Payment Status")
+        ->view('emails.payment-status');
+    }
+}

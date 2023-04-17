@@ -1,0 +1,102 @@
+
+.blur {
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+}
+
+.flex {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-modalcontainer {
+    display: block;
+    position: fixed;
+    z-index: 9999999999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.custom-modalcontainer.active {
+    display: block;
+}
+
+.custom-modalcontainer .custom-modal {
+    display: block;
+    position: relative;
+    width: 600px;
+    /*height: 330px;*/
+    background-color: #FFF;
+}
+.custom-modalcontainer .custom-modal.active {
+    display: block;
+}
+.custom-modalcontainer .custom-modal .content {
+    padding: 30px;
+}
+.custom-modalcontainer .custom-modal .close {
+    font-family: "Source Sans Pro", sans-serif;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    position: absolute;
+    right: 0;
+    color: #999;
+    font-size: 40px;
+}
+.custom-modalcontainer .custom-modal .close span {
+    transform: rotate(45deg);
+    display: block;
+}
+.custom-modalcontainer .custom-modal .buttons {
+    width: 600px;
+    /*position: absolute;*/
+    bottom: 0;
+    height: 50px;
+    background-color: #FFF;
+}
+.custom-modalcontainer .custom-modal .buttons a {
+    width: 50%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    float: left;
+    background-color: #EEE;
+    color: #4d5c6e;
+    transition: 0.3s;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.custom-modalcontainer .custom-modal .buttons a:hover {
+    background-color: #e1e1e1;
+}
+.custom-modalcontainer .custom-modal .buttons a:nth-of-type(2) {
+    float: right;
+    color: #FFF;
+    background-color: #00c06d;
+}
+.custom-modalcontainer .custom-modal .buttons a:nth-of-type(2):hover {
+    background-color: #00a75f;
+}
+
+.custom-modalcontainer .custom-modalbttn {
+    background-color: #24252A;
+    padding: 12px 25px;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    border-radius: 4px;
+}
+.custom-modalcontainer .custom-modalbttn:hover {
+    background-color: #2b2c32;
+}

@@ -1,0 +1,98 @@
+image: atlassian/default-image:2
+
+pipelines:
+
+  branches:
+    development:
+      - step:
+          name: Deploy laravel
+          deployment: Test
+          script:
+              - pipe: atlassian/rsync-deploy:0.3.2
+                variables:
+                  USER: 'ubuntu'
+                  SERVER: '54.216.65.212'
+                  REMOTE_PATH: '/var/www/html/heyblinds'
+                  LOCAL_PATH: '$BITBUCKET_CLONE_DIR/*'
+                  EXTRA_ARGS: '--exclude=vendor --exclude=.env  --exclude=composer.lock --exclude=storage/*'
+                  DELETE_FLAG: 'false'
+          after-script:
+              - ssh -o StrictHostKeyChecking=no ubuntu@54.216.65.212 echo "restart apache2"
+              - ssh -o StrictHostKeyChecking=no ubuntu@54.216.65.212 'bash -s'  < ./scripts/setup.sh
+              - ssh -o StrictHostKeyChecking=no ubuntu@54.216.65.212 'bash -s' sudo service apache2 restart
+
+
+    release/production:
+      - step:
+          name: Deploy laravel
+          deployment: Test
+          script:
+              - pipe: atlassian/rsync-deploy:0.3.2
+                variables:
+                  USER: 'ubuntu'
+                  SERVER: '54.217.194.58'
+                  REMOTE_PATH: '/var/www/html/heyblinds'
+                  LOCAL_PATH: '$BITBUCKET_CLONE_DIR/*'
+                  EXTRA_ARGS: '--exclude=vendor --exclude=.env --exclude=composer.json --exclude=composer.lock --exclude=storage/*'
+                  DELETE_FLAG: 'false'
+          after-script:
+              - ssh -o StrictHostKeyChecking=no ubuntu@54.217.194.58 echo "restart apache2"
+              - ssh -o StrictHostKeyChecking=no ubuntu@54.217.194.58 'bash -s'  < ./scripts/setup.sh
+              - ssh -o StrictHostKeyChecking=no ubuntu@54.217.194.58 'bash -s' sudo service apache2 restart
+
+    release/staging:
+      - step:
+          name: Deploy laravel
+          deployment: staging
+          script:
+              - pipe: atlassian/rsync-deploy:0.3.2
+                variables:
+                  USER: 'ubuntu'
+                  SERVER: '34.245.22.42'
+                  REMOTE_PATH: '/var/www/html/heyblinds'
+                  LOCAL_PATH: '$BITBUCKET_CLONE_DIR/*'
+                  EXTRA_ARGS: '--exclude=vendor --exclude=.env --exclude=composer.json --exclude=composer.lock --exclude=storage/*'
+                  DELETE_FLAG: 'false'
+          after-script:
+              - ssh -o StrictHostKeyChecking=no ubuntu@34.245.22.42 echo "restart apache2"
+              - ssh -o StrictHostKeyChecking=no ubuntu@34.245.22.42 'bash -s'  < ./scripts/setup-stag.sh
+              - ssh -o StrictHostKeyChecking=no ubuntu@34.245.22.42 'bash -s' sudo service apache2 restart
+
+
+    release/global-dev:
+      - step:
+          name: Deploy laravel
+          deployment: global-dev
+          script:
+              - pipe: atlassian/rsync-deploy:0.3.2
+                variables:
+                  USER: '$USER'
+                  SERVER: '$serverIp'
+                  REMOTE_PATH: '$global_dev_path'
+                  LOCAL_PATH: '$BITBUCKET_CLONE_DIR/*'
+                  EXTRA_ARGS: '--exclude=vendor --exclude=.env --exclude=composer.json --exclude=composer.lock --exclude=storage/*'
+                  DELETE_FLAG: 'false'
+          after-script:
+              - ssh -o StrictHostKeyChecking=no $USER@$serverIp echo "restart apache2"
+              - ssh -o StrictHostKeyChecking=no $USER@$serverIp 'bash -s'  < ./scripts/$ENV_SH.sh
+              - ssh -o StrictHostKeyChecking=no $USER@$serverIp 'bash -s' sudo service apache2 restart
+
+
+    release/global-production:
+      - step:
+          name: Deploy laravel
+          deployment: global-production
+          script:
+              - pipe: atlassian/rsync-deploy:0.3.2
+                variables:
+                  USER: '$USER'
+                  SERVER: '$serverIp'
+                  REMOTE_PATH: '$global_dev_path'
+                  LOCAL_PATH: '$BITBUCKET_CLONE_DIR/*'
+                  EXTRA_ARGS: '--exclude=vendor --exclude=.env --exclude=composer.json --exclude=composer.lock --exclude=storage/*'
+                  DELETE_FLAG: 'false'
+          after-script:
+              - ssh -o StrictHostKeyChecking=no $USER@$serverIp echo "restart apache2"
+              - ssh -o StrictHostKeyChecking=no $USER@$serverIp 'bash -s'  < ./scripts/$ENV_SH.sh
+              - ssh -o StrictHostKeyChecking=no $USER@$serverIp 'bash -s' sudo service apache2 restart
+
